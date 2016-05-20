@@ -1,20 +1,7 @@
-import {Component} from '@angular/core';
-// import {REST} from './killer_whale';
+import {Component, OnInit} from '@angular/core';
+import {RestCollection} from './killer_whale';
 
 import {District} from './models/district.model';
-
-function REST(target: any, key: string) {
-  console.log(this);
-  debugger;
-  target[key] = [{
-        id: 12,
-        name: "Hola"
-    },
-    {
-        id: 13,
-        name: "Chao"
-    }];
-};
 
 @Component({
     selector: 'my-app',
@@ -22,15 +9,18 @@ function REST(target: any, key: string) {
       <h2>Comunas</h2>
       <ul class="heroes">
         <li *ngFor="let district of districts">
-          {{district}}
-        </li>
+          {{district.name}}
       </ul>
+      {{districts.baseUrl}}
     `
 })
-export class AppComponent {
-    @REST
-    districts: string[] = ["hola", "chao"];
+export class AppComponent implements OnInit{
+    districts: RestCollection[] = new RestCollection(District);
     title = 'Tour of Heroes';
+    
+    ngOnInit() {
+        this.districts.fetch();
+    }
 }
 
 
